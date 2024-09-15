@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+
+  tensorflowgpu:
+    build: ./pytorch
+    image: pytorch
+    restart: unless-stopped
+    volumes: 
+      - ../:/data
+    ports:
+      - '8888:8888'
+    shm_size: '1gb'
+    ulimits:
+      stack: 67108864
+      memlock: -1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
